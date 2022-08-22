@@ -11,6 +11,10 @@
 		044F213128B333EC0065090D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F213028B333EC0065090D /* ContentView.swift */; };
 		044F213328B333EE0065090D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044F213228B333EE0065090D /* Assets.xcassets */; };
 		044F213628B333EE0065090D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044F213528B333EE0065090D /* Preview Assets.xcassets */; };
+		044F213D28B334DC0065090D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F213C28B334DC0065090D /* ImagePicker.swift */; };
+		044F214128B3374A0065090D /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F214028B3374A0065090D /* FilterManager.swift */; };
+		044F214528B341590065090D /* PropDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F214428B341590065090D /* PropDefinition.swift */; };
+		044F214928B342770065090D /* PropSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F214828B342770065090D /* PropSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		044F213028B333EC0065090D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		044F213228B333EE0065090D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		044F213528B333EE0065090D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		044F213C28B334DC0065090D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		044F214028B3374A0065090D /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
+		044F214428B341590065090D /* PropDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropDefinition.swift; sourceTree = "<group>"; };
+		044F214828B342770065090D /* PropSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,9 +60,13 @@
 			isa = PBXGroup;
 			children = (
 				044F212E28B333EC0065090D /* FilterTesterApp.swift */,
+				044F213C28B334DC0065090D /* ImagePicker.swift */,
 				044F213028B333EC0065090D /* ContentView.swift */,
 				044F213228B333EE0065090D /* Assets.xcassets */,
 				044F213428B333EE0065090D /* Preview Content */,
+				044F214028B3374A0065090D /* FilterManager.swift */,
+				044F214428B341590065090D /* PropDefinition.swift */,
+				044F214828B342770065090D /* PropSlider.swift */,
 			);
 			path = FilterTester;
 			sourceTree = "<group>";
@@ -137,8 +149,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				044F214128B3374A0065090D /* FilterManager.swift in Sources */,
+				044F213D28B334DC0065090D /* ImagePicker.swift in Sources */,
+				044F214528B341590065090D /* PropDefinition.swift in Sources */,
 				044F213128B333EC0065090D /* ContentView.swift in Sources */,
 				044F212F28B333EC0065090D /* FilterTesterApp.swift in Sources */,
+				044F214928B342770065090D /* PropSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
