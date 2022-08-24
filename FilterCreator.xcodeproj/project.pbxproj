@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		044F212F28B333EC0065090D /* FilterTesterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F212E28B333EC0065090D /* FilterTesterApp.swift */; };
+		044F212F28B333EC0065090D /* FilterCreatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F212E28B333EC0065090D /* FilterCreatorApp.swift */; };
 		044F213128B333EC0065090D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F213028B333EC0065090D /* ContentView.swift */; };
 		044F213328B333EE0065090D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044F213228B333EE0065090D /* Assets.xcassets */; };
 		044F213628B333EE0065090D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044F213528B333EE0065090D /* Preview Assets.xcassets */; };
@@ -18,8 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		044F212B28B333EC0065090D /* FilterTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		044F212E28B333EC0065090D /* FilterTesterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTesterApp.swift; sourceTree = "<group>"; };
+		044F212B28B333EC0065090D /* FilterCreator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterCreator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		044F212E28B333EC0065090D /* FilterCreatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreatorApp.swift; sourceTree = "<group>"; };
 		044F213028B333EC0065090D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		044F213228B333EE0065090D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		044F213528B333EE0065090D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		044F212228B333EC0065090D = {
 			isa = PBXGroup;
 			children = (
-				044F212D28B333EC0065090D /* FilterTester */,
+				044F212D28B333EC0065090D /* FilterCreator */,
 				044F212C28B333EC0065090D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,15 +51,15 @@
 		044F212C28B333EC0065090D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				044F212B28B333EC0065090D /* FilterTester.app */,
+				044F212B28B333EC0065090D /* FilterCreator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		044F212D28B333EC0065090D /* FilterTester */ = {
+		044F212D28B333EC0065090D /* FilterCreator */ = {
 			isa = PBXGroup;
 			children = (
-				044F212E28B333EC0065090D /* FilterTesterApp.swift */,
+				044F212E28B333EC0065090D /* FilterCreatorApp.swift */,
 				044F213C28B334DC0065090D /* ImagePicker.swift */,
 				044F213028B333EC0065090D /* ContentView.swift */,
 				044F213228B333EE0065090D /* Assets.xcassets */,
@@ -68,7 +68,7 @@
 				044F214428B341590065090D /* PropDefinition.swift */,
 				044F214828B342770065090D /* PropSlider.swift */,
 			);
-			path = FilterTester;
+			path = FilterCreator;
 			sourceTree = "<group>";
 		};
 		044F213428B333EE0065090D /* Preview Content */ = {
@@ -82,9 +82,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		044F212A28B333EC0065090D /* FilterTester */ = {
+		044F212A28B333EC0065090D /* FilterCreator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 044F213928B333EE0065090D /* Build configuration list for PBXNativeTarget "FilterTester" */;
+			buildConfigurationList = 044F213928B333EE0065090D /* Build configuration list for PBXNativeTarget "FilterCreator" */;
 			buildPhases = (
 				044F212728B333EC0065090D /* Sources */,
 				044F212828B333EC0065090D /* Frameworks */,
@@ -94,9 +94,9 @@
 			);
 			dependencies = (
 			);
-			name = FilterTester;
+			name = FilterCreator;
 			productName = FilterTester;
-			productReference = 044F212B28B333EC0065090D /* FilterTester.app */;
+			productReference = 044F212B28B333EC0065090D /* FilterCreator.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -114,7 +114,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 044F212628B333EC0065090D /* Build configuration list for PBXProject "FilterTester" */;
+			buildConfigurationList = 044F212628B333EC0065090D /* Build configuration list for PBXProject "FilterCreator" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -127,7 +127,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				044F212A28B333EC0065090D /* FilterTester */,
+				044F212A28B333EC0065090D /* FilterCreator */,
 			);
 		};
 /* End PBXProject section */
@@ -153,7 +153,7 @@
 				044F213D28B334DC0065090D /* ImagePicker.swift in Sources */,
 				044F214528B341590065090D /* PropDefinition.swift in Sources */,
 				044F213128B333EC0065090D /* ContentView.swift in Sources */,
-				044F212F28B333EC0065090D /* FilterTesterApp.swift in Sources */,
+				044F212F28B333EC0065090D /* FilterCreatorApp.swift in Sources */,
 				044F214928B342770065090D /* PropSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,7 +284,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"FilterTester/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"FilterCreator/Preview Content\"";
 				DEVELOPMENT_TEAM = R48E5GJ873;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -313,7 +313,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"FilterTester/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"FilterCreator/Preview Content\"";
 				DEVELOPMENT_TEAM = R48E5GJ873;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -338,7 +338,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		044F212628B333EC0065090D /* Build configuration list for PBXProject "FilterTester" */ = {
+		044F212628B333EC0065090D /* Build configuration list for PBXProject "FilterCreator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				044F213728B333EE0065090D /* Debug */,
@@ -347,7 +347,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		044F213928B333EE0065090D /* Build configuration list for PBXNativeTarget "FilterTester" */ = {
+		044F213928B333EE0065090D /* Build configuration list for PBXNativeTarget "FilterCreator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				044F213A28B333EE0065090D /* Debug */,

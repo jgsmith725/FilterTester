@@ -24,9 +24,9 @@ struct ContentView: View {
     private var picActions: [Alert.Button] {
         let buttons: [Alert.Button] = [
             .cancel(Text("cancel")),
-            .default(Text("camera"), action: {
-                sourceType = .camera
-            }),
+//            .default(Text("camera"), action: {
+//                sourceType = .camera
+//            }),
             .default(Text("photo library"), action: {
                 sourceType = .library
             })
@@ -41,6 +41,7 @@ struct ContentView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
+                    .rotationEffect(Angle(degrees: -90))
                     .padding()
             }
             
@@ -54,13 +55,47 @@ struct ContentView: View {
                 
                 Button(action: {
                     filterManager.resetToDefaults()
-                    guard let image = inputImage else { return }
-                    displayedImage = filterManager.applyFilter(image: image)
+                    applyFilter()
                     
                 }, label: {
                     Text("reset to defaults")
                 })
                     .padding()
+                
+                Button(action: {
+                    filterManager.resetToCurrentVintageFilter()
+                    applyFilter()                    
+                }, label: {
+                    Text("reset to current vintage")
+                })
+                    .padding()
+                
+                Group {
+                    Toggle(isOn: $filterManager.photoEffectFade) {
+                        Text("diminished color vintage")
+                    }
+                    .onChange(of: filterManager.photoEffectFade) { _ in
+                        applyFilter()
+                    }
+                    Toggle(isOn: $filterManager.photoEffectInstant) {
+                        Text("distorted vintage")
+                    }
+                    .onChange(of: filterManager.photoEffectInstant) { _ in
+                        applyFilter()
+                    }
+                    Toggle(isOn: $filterManager.photoEffectTransfer) {
+                        Text("warm vintage")
+                    }
+                    .onChange(of: filterManager.photoEffectTransfer) { _ in
+                        applyFilter()
+                    }
+                    Toggle(isOn: $filterManager.photoEffectProcess) {
+                        Text("cool vintage")
+                    }
+                    .onChange(of: filterManager.photoEffectProcess) { _ in
+                        applyFilter()
+                    }
+                }
                 
                 Group {
                     PropSlider(binding: filterBinding($filterManager.exposure), def: FilterManager.exposureDef)
@@ -72,6 +107,7 @@ struct ContentView: View {
                     PropSlider(binding: filterBinding($filterManager.temp), def: FilterManager.tempDef)
                     PropSlider(binding: filterBinding($filterManager.tint), def: FilterManager.tintDef)
                     PropSlider(binding: filterBinding($filterManager.vibrance), def: FilterManager.vibranceDef)
+                    PropSlider(binding: filterBinding($filterManager.sharpness), def: FilterManager.sharpnessDef)
                 }
 
                 Group {
@@ -101,6 +137,9 @@ struct ContentView: View {
                         message: Text(""),
                         buttons: picActions)
         })
+        .onChange(of: inputImage) { _ in
+            applyFilter()
+        }
     }
     
     private func filterBinding(_ binding: Binding<Float>) -> Binding<Float> {
@@ -108,10 +147,13 @@ struct ContentView: View {
             binding.wrappedValue
         }, set: { (newVal) in
             binding.wrappedValue = newVal
-            guard let image = inputImage else { return }
-            displayedImage = filterManager.applyFilter(image: image)
-            
+            applyFilter()
         })
+    }
+    
+    private func applyFilter() {
+        guard let image = inputImage else { return }
+        displayedImage = filterManager.applyFilter(image: image)
     }
 }
 

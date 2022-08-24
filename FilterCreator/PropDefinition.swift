@@ -12,4 +12,5 @@ struct PropDefinition {
     let min: Float
     let max: Float
     let defaultValue: Float
+    let vintageValue: Float
 }
