@@ -51,13 +51,15 @@ final class FilterManager: ObservableObject {
     
     let photoEffectInstantFilter = CIFilter.photoEffectInstant()
     let photoEffectFadeFilter = CIFilter.photoEffectFade()
-    let photoEffectTrasnferFilter = CIFilter.photoEffectTransfer()
+    let photoEffectTransferFilter = CIFilter.photoEffectTransfer()
     let photoEffectProcessFilter = CIFilter.photoEffectProcess()
 
     let photoEffectNoir = CIFilter.photoEffectNoir()
     let randomGenerator = CIFilter.randomGenerator()
     let sourceOverCompositor = CIFilter.sourceOverCompositing()
     let multiplyCompositing = CIFilter.multiplyCompositing()
+    
+    @Published var isLandscape: Bool = true
     
     @Published var photoEffectFade: Bool = false
     @Published var photoEffectInstant: Bool = false
@@ -83,13 +85,8 @@ final class FilterManager: ObservableObject {
     @Published var br: Float = FilterManager.brDef.defaultValue
     @Published var bg: Float = FilterManager.bgDef.defaultValue
     @Published var bb: Float = FilterManager.bbDef.defaultValue
-    
-    
-//    @Published var highlightAmount: Float = FilterManager.exposureDefault
-//    @Published var shadowAmount: Float = FilterManager.exposureDefault
-//    @Published var temp: Float = FilterManager.exposureDefault
-//    @Published var tint: Float = FilterManager.exposureDefault
-//    @Published var vibrance: Float = FilterManager.exposureDefault
+    @Published var savedFilters: [FilterConfig] = []
+    @Published var activeFilter: FilterConfig? = nil
     
     
     func resetToDefaults() {
@@ -119,29 +116,87 @@ final class FilterManager: ObservableObject {
     }
     
     func resetToCurrentVintageFilter() {
-        photoEffectFade = true
-        photoEffectInstant = false
-        photoEffectTransfer = false
-        photoEffectProcess = false
-        exposure = FilterManager.exposureDef.vintageValue
-        contrast = FilterManager.contrastDef.vintageValue
-        brightness = FilterManager.brightnessDef.vintageValue
-        saturation = FilterManager.saturationDef.vintageValue
-        highlight = FilterManager.highlightDef.vintageValue
-        shadow = FilterManager.shadowDef.vintageValue
-        temp = FilterManager.tempDef.vintageValue
-        tint = FilterManager.tintDef.vintageValue
-        vibrance = FilterManager.vibranceDef.vintageValue
-        sharpness = FilterManager.sharpnessDef.vintageValue
-        rr = FilterManager.rrDef.vintageValue
-        rg = FilterManager.rgDef.vintageValue
-        rb = FilterManager.rbDef.vintageValue
-        gr = FilterManager.grDef.vintageValue
-        gg = FilterManager.ggDef.vintageValue
-        gb = FilterManager.gbDef.vintageValue
-        br = FilterManager.brDef.vintageValue
-        bg = FilterManager.bgDef.vintageValue
-        bb = FilterManager.bbDef.vintageValue
+        let vintageConfig = FilterConfig(name: "vintage",
+                                    instant: false,
+                                  fade: true,
+                                  transfer: false,
+                                  process: false,
+                                  exposure: FilterManager.exposureDef.vintageValue,
+                                  contrast: FilterManager.contrastDef.vintageValue,
+                                  brightness: FilterManager.brightnessDef.vintageValue,
+                                  saturation: FilterManager.saturationDef.vintageValue,
+                                  highlight: FilterManager.highlightDef.vintageValue,
+                                  shadow: FilterManager.shadowDef.vintageValue,
+                                  temp: FilterManager.tempDef.vintageValue,
+                                  tint: FilterManager.tintDef.vintageValue,
+                                  sharpness: FilterManager.sharpnessDef.vintageValue,
+                                  vibrance: FilterManager.vibranceDef.vintageValue,
+                                  rr: FilterManager.rrDef.vintageValue,
+                                  rg: FilterManager.rgDef.vintageValue,
+                                  rb: FilterManager.rbDef.vintageValue,
+                                  gr: FilterManager.grDef.vintageValue,
+                                  gg: FilterManager.ggDef.vintageValue,
+                                  gb: FilterManager.gbDef.vintageValue,
+                                  br: FilterManager.brDef.vintageValue,
+                                  bg: FilterManager.bgDef.vintageValue,
+                                  bb: FilterManager.bbDef.vintageValue)
+        loadFilter(filter: vintageConfig)
+    }
+    
+    func loadFilter(filter: FilterConfig) {
+        photoEffectFade = filter.fade
+        photoEffectInstant = filter.instant
+        photoEffectTransfer = filter.transfer
+        photoEffectProcess = filter.process
+        exposure = filter.exposure
+        contrast =  filter.contrast
+        brightness = filter.brightness
+        saturation = filter.saturation
+        highlight = filter.highlight
+        shadow = filter.shadow
+        temp = filter.temp
+        tint = filter.tint
+        vibrance = filter.vibrance
+        sharpness = filter.sharpness
+        rr = filter.rr
+        rg = filter.rg
+        rb = filter.rb
+        gr = filter.gr
+        gg = filter.gg
+        gb = filter.gb
+        br = filter.br
+        bg = filter.bg
+        bb = filter.bb
+        
+        activeFilter = filter
+    }
+    
+    func getCurrentFilter(name: String) -> FilterConfig {
+        let currentFilter = FilterConfig(name: name,
+                                         instant: photoEffectInstant,
+                                         fade: photoEffectFade,
+                                         transfer: photoEffectTransfer,
+                                         process: photoEffectProcess,
+                                         exposure: exposure,
+                                         contrast: contrast,
+                                         brightness: brightness,
+                                         saturation: saturation,
+                                         highlight: highlight,
+                                         shadow: shadow,
+                                         temp: temp,
+                                         tint: tint,
+                                         sharpness: sharpness,
+                                         vibrance: vibrance,
+                                         rr: rr,
+                                         rg: rg,
+                                         rb: rb,
+                                         gr: gr,
+                                         gg: gg,
+                                         gb: gb,
+                                         br: br,
+                                         bg: bg,
+                                         bb: bb)
+        return currentFilter
     }
     
     func applyFilter(image: UIImage) -> UIImage {
@@ -159,8 +214,8 @@ final class FilterManager: ObservableObject {
         }
         
         if photoEffectTransfer {
-            photoEffectTrasnferFilter.inputImage = beginImage
-            beginImage = photoEffectTrasnferFilter.outputImage
+            photoEffectTransferFilter.inputImage = beginImage
+            beginImage = photoEffectTransferFilter.outputImage
         }
         
         if photoEffectProcess {
@@ -243,4 +298,59 @@ final class FilterManager: ObservableObject {
         combinedImage = combinedImage?.cropped(to: image.extent)
         return combinedImage
     }
+    
+    func listenForDeviceOrientationChanges() {
+        print("starting to listen for orientation changes")
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(forName: UIDevice.orientationDidChangeNotification, object: nil, queue: nil, using: { [weak self] notification in
+            self?.isLandscape = UIDevice.current.orientation.isLandscape
+        })
+    }
+    
+    func setup() {
+        listenForDeviceOrientationChanges()
+        loadAllFilters()
+    }
+
+    func saveCurrentFilter(name: String) {
+        let currentFilter = getCurrentFilter(name: name)
+        let jsonEncoder = JSONEncoder()
+        do {
+            let data = try jsonEncoder.encode(currentFilter)
+            let manager = FileManager.default
+            guard let url = getUrlForFilterName(name: name) else { return }
+            guard !url.isFileURL && !manager.fileExists(atPath: url.path) else {
+                print("file already exists")
+                return
+            }
+            try data.write(to: url)
+        } catch let error {
+            print(String(describing: error))
+        }
+
+    }
+
+    func loadAllFilters() {
+        let manager = FileManager.default
+        guard var url = manager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        url = url.appendingPathComponent("FilterConfigs")
+        do {
+            let jsonDecoder = JSONDecoder()
+            let directoryContents = try manager.contentsOfDirectory(atPath: url.path)
+            let datas = try directoryContents.map { try Data(contentsOf: URL(fileURLWithPath: $0)) }
+            savedFilters = try datas.map { try jsonDecoder.decode(FilterConfig.self, from: $0) }
+        } catch let error {
+            print(String(describing: error))
+        }
+    }
+
+    private func getUrlForFilterName(name: String) -> URL? {
+        guard !name.isEmpty else { return nil }
+        let manager = FileManager.default
+        guard var url = manager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        url = url.appendingPathComponent("FilterConfigs")
+        url = url.appendingPathComponent(name)
+        return url
+    }
+    
 }
