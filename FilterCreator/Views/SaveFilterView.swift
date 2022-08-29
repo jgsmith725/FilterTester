@@ -8,21 +8,42 @@
 import SwiftUI
 
 struct SaveFilterView: View {
+    @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var filterManager: FilterManager
     @State private var name: String = ""
     
     var body: some View {
-        VStack {
-            TextField("filter name", text: $name)
-            Spacer()
-            Button(action: {
-                filterManager.saveCurrentFilter(name: name)
-            }, label: {
-                Text("save")
-            })
-                .opacity(name.isEmpty ? 0.75 : 1)
-                .disabled(name.isEmpty)
+        NavigationView {
+            VStack {
+                Spacer()
+                TextField("filter name", text: $name)
+                    .padding()
+                    .textFieldStyle(.roundedBorder)
+                Spacer()
+                Button(action: {
+                    filterManager.saveCurrentFilter(name: name)
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Text("save")
+                })
+                    .opacity(name.isEmpty ? 0.75 : 1)
+                    .disabled(name.isEmpty)
+                    .buttonStyle(.borderedProminent)
+                    .padding()
+                
+            }
+            .navigationTitle("save current filter")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "xmark")
+                    })
+                }
+            }
         }
+
     }
 }
 

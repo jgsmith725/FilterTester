@@ -88,60 +88,55 @@ final class FilterManager: ObservableObject {
     @Published var savedFilters: [FilterConfig] = []
     @Published var activeFilter: FilterConfig? = nil
     
+    static let defaultFilter = FilterConfig(name: "none",
+                                            instant: false,
+                                            fade: false,
+                                            transfer: false,
+                                            process: false,
+                                            exposure: FilterManager.exposureDef.defaultValue,
+                                            contrast: FilterManager.contrastDef.defaultValue,
+                                            brightness: FilterManager.brightnessDef.defaultValue,
+                                            saturation: FilterManager.saturationDef.defaultValue,
+                                            highlight: FilterManager.highlightDef.defaultValue,
+                                            shadow: FilterManager.shadowDef.defaultValue,
+                                            temp: FilterManager.tempDef.defaultValue,
+                                            tint: FilterManager.tintDef.defaultValue,
+                                            sharpness: FilterManager.sharpnessDef.defaultValue,
+                                            vibrance: FilterManager.vibranceDef.defaultValue,
+                                            rr: FilterManager.rrDef.defaultValue,
+                                            rg: FilterManager.rgDef.defaultValue,
+                                            rb: FilterManager.rbDef.defaultValue,
+                                            gr: FilterManager.grDef.defaultValue,
+                                            gg: FilterManager.ggDef.defaultValue,
+                                            gb: FilterManager.gbDef.defaultValue,
+                                            br: FilterManager.brDef.defaultValue,
+                                            bg: FilterManager.bgDef.defaultValue,
+                                            bb: FilterManager.bbDef.defaultValue)
     
-    func resetToDefaults() {
-        photoEffectFade = false
-        photoEffectInstant = false
-        photoEffectTransfer = false
-        photoEffectProcess = false
-        exposure = FilterManager.exposureDef.defaultValue
-        contrast = FilterManager.contrastDef.defaultValue
-        brightness = FilterManager.brightnessDef.defaultValue
-        saturation = FilterManager.saturationDef.defaultValue
-        highlight = FilterManager.highlightDef.defaultValue
-        shadow = FilterManager.shadowDef.defaultValue
-        temp = FilterManager.tempDef.defaultValue
-        tint = FilterManager.tintDef.defaultValue
-        vibrance = FilterManager.vibranceDef.defaultValue
-        sharpness = FilterManager.sharpnessDef.defaultValue
-        rr = FilterManager.rrDef.defaultValue
-        rg = FilterManager.rgDef.defaultValue
-        rb = FilterManager.rbDef.defaultValue
-        gr = FilterManager.grDef.defaultValue
-        gg = FilterManager.ggDef.defaultValue
-        gb = FilterManager.gbDef.defaultValue
-        br = FilterManager.brDef.defaultValue
-        bg = FilterManager.bgDef.defaultValue
-        bb = FilterManager.bbDef.defaultValue
-    }
-    
-    func resetToCurrentVintageFilter() {
-        let vintageConfig = FilterConfig(name: "vintage",
-                                    instant: false,
-                                  fade: true,
-                                  transfer: false,
-                                  process: false,
-                                  exposure: FilterManager.exposureDef.vintageValue,
-                                  contrast: FilterManager.contrastDef.vintageValue,
-                                  brightness: FilterManager.brightnessDef.vintageValue,
-                                  saturation: FilterManager.saturationDef.vintageValue,
-                                  highlight: FilterManager.highlightDef.vintageValue,
-                                  shadow: FilterManager.shadowDef.vintageValue,
-                                  temp: FilterManager.tempDef.vintageValue,
-                                  tint: FilterManager.tintDef.vintageValue,
-                                  sharpness: FilterManager.sharpnessDef.vintageValue,
-                                  vibrance: FilterManager.vibranceDef.vintageValue,
-                                  rr: FilterManager.rrDef.vintageValue,
-                                  rg: FilterManager.rgDef.vintageValue,
-                                  rb: FilterManager.rbDef.vintageValue,
-                                  gr: FilterManager.grDef.vintageValue,
-                                  gg: FilterManager.ggDef.vintageValue,
-                                  gb: FilterManager.gbDef.vintageValue,
-                                  br: FilterManager.brDef.vintageValue,
-                                  bg: FilterManager.bgDef.vintageValue,
-                                  bb: FilterManager.bbDef.vintageValue)
-        loadFilter(filter: vintageConfig)
-    }
+    static let currentVintageFilter = FilterConfig(name: "vintage",
+                                                   instant: false,
+                                                 fade: true,
+                                                 transfer: false,
+                                                 process: false,
+                                                 exposure: FilterManager.exposureDef.vintageValue,
+                                                 contrast: FilterManager.contrastDef.vintageValue,
+                                                 brightness: FilterManager.brightnessDef.vintageValue,
+                                                 saturation: FilterManager.saturationDef.vintageValue,
+                                                 highlight: FilterManager.highlightDef.vintageValue,
+                                                 shadow: FilterManager.shadowDef.vintageValue,
+                                                 temp: FilterManager.tempDef.vintageValue,
+                                                 tint: FilterManager.tintDef.vintageValue,
+                                                 sharpness: FilterManager.sharpnessDef.vintageValue,
+                                                 vibrance: FilterManager.vibranceDef.vintageValue,
+                                                 rr: FilterManager.rrDef.vintageValue,
+                                                 rg: FilterManager.rgDef.vintageValue,
+                                                 rb: FilterManager.rbDef.vintageValue,
+                                                 gr: FilterManager.grDef.vintageValue,
+                                                 gg: FilterManager.ggDef.vintageValue,
+                                                 gb: FilterManager.gbDef.vintageValue,
+                                                 br: FilterManager.brDef.vintageValue,
+                                                 bg: FilterManager.bgDef.vintageValue,
+                                                 bb: FilterManager.bbDef.vintageValue)
     
     func loadFilter(filter: FilterConfig) {
         photoEffectFade = filter.fade
@@ -313,43 +308,87 @@ final class FilterManager: ObservableObject {
     }
 
     func saveCurrentFilter(name: String) {
+        guard !isReservedFilter(name: name) else {
+            print("attempt to use reserved name failed")
+            return
+        }
+        
         let currentFilter = getCurrentFilter(name: name)
         let jsonEncoder = JSONEncoder()
         do {
             let data = try jsonEncoder.encode(currentFilter)
             let manager = FileManager.default
-            guard let url = getUrlForFilterName(name: name) else { return }
-            guard !url.isFileURL && !manager.fileExists(atPath: url.path) else {
-                print("file already exists")
-                return
+            guard let folderURL = getFolderURL() else { return }
+            if !manager.fileExists(atPath: folderURL.path) {
+                try manager.createDirectory(at: folderURL, withIntermediateDirectories: true, attributes: nil)
             }
-            try data.write(to: url)
+
+            let fileName = folderURL.appendingPathComponent(name)
+//            guard fileName.isFileURL && !manager.fileExists(atPath: fileName.path) else {
+//                print("file already exists")
+//                return
+//            }
+            
+            try data.write(to: fileName)
+            
+            if let index = savedFilters.firstIndex(where: { $0.name == name }) {
+                savedFilters[index] = currentFilter
+            } else {
+                savedFilters.append(currentFilter)
+            }
         } catch let error {
             print(String(describing: error))
         }
 
     }
+    
+    func isReservedFilter(name: String) -> Bool {
+        return name == FilterManager.defaultFilter.name || name == FilterManager.currentVintageFilter.name
+    }
+    
+    func deleteFilter(name: String) {
+        guard !isReservedFilter(name: name) else {
+            print("attempt to delete reserved name failed")
+            return
+        }
+        let manager = FileManager.default
+        guard let folderURL = getFolderURL() else { return }
+        let fileName = folderURL.appendingPathComponent(name)
+        do {
+            if manager.fileExists(atPath: fileName.path) {
+                try manager.removeItem(at: fileName)
+            }
+            if let index = savedFilters.firstIndex(where: { $0.name == name }) {
+                savedFilters.remove(at: index)
+            }
+        } catch let error {
+            print(String(describing: error))
+        }
+    }
 
+    static let filterFolderName = "FilterConfigs"
+    
     func loadAllFilters() {
         let manager = FileManager.default
-        guard var url = manager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        url = url.appendingPathComponent("FilterConfigs")
+        guard let folderURL = getFolderURL() else { return }
         do {
             let jsonDecoder = JSONDecoder()
-            let directoryContents = try manager.contentsOfDirectory(atPath: url.path)
+            let directoryContents = try manager.contentsOfDirectory(atPath: folderURL.path)
             let datas = try directoryContents.map { try Data(contentsOf: URL(fileURLWithPath: $0)) }
             savedFilters = try datas.map { try jsonDecoder.decode(FilterConfig.self, from: $0) }
+            savedFilters.append(FilterManager.currentVintageFilter)
+            savedFilters.append(FilterManager.defaultFilter)
+            print("saved filters: \(String(describing: savedFilters))")
         } catch let error {
             print(String(describing: error))
+            savedFilters = [FilterManager.currentVintageFilter, FilterManager.defaultFilter]
         }
     }
 
-    private func getUrlForFilterName(name: String) -> URL? {
-        guard !name.isEmpty else { return nil }
+    private func getFolderURL() -> URL? {
         let manager = FileManager.default
         guard var url = manager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
-        url = url.appendingPathComponent("FilterConfigs")
-        url = url.appendingPathComponent(name)
+        url = url.appendingPathComponent(FilterManager.filterFolderName)
         return url
     }
     

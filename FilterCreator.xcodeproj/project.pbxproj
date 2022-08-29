@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043E92EB28B8579D006DC663 /* FilterConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E92EA28B8579D006DC663 /* FilterConfig.swift */; };
+		043E92EF28B8675E006DC663 /* SaveFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E92EE28B8675E006DC663 /* SaveFilterView.swift */; };
 		044F212F28B333EC0065090D /* FilterCreatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F212E28B333EC0065090D /* FilterCreatorApp.swift */; };
 		044F213128B333EC0065090D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F213028B333EC0065090D /* ContentView.swift */; };
 		044F213328B333EE0065090D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044F213228B333EE0065090D /* Assets.xcassets */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		043E92EA28B8579D006DC663 /* FilterConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfig.swift; sourceTree = "<group>"; };
+		043E92EE28B8675E006DC663 /* SaveFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveFilterView.swift; sourceTree = "<group>"; };
 		044F212B28B333EC0065090D /* FilterCreator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterCreator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		044F212E28B333EC0065090D /* FilterCreatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCreatorApp.swift; sourceTree = "<group>"; };
 		044F213028B333EC0065090D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +44,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0410A8A028BC6A4100FD3383 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				044F213C28B334DC0065090D /* ImagePicker.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		043E92E728B8574D006DC663 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				044F214428B341590065090D /* PropDefinition.swift */,
+				043E92EA28B8579D006DC663 /* FilterConfig.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		043E92E828B8575F006DC663 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				044F213028B333EC0065090D /* ContentView.swift */,
+				044F214828B342770065090D /* PropSlider.swift */,
+				043E92EE28B8675E006DC663 /* SaveFilterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		043E92E928B85769006DC663 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				044F214028B3374A0065090D /* FilterManager.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		044F212228B333EC0065090D = {
 			isa = PBXGroup;
 			children = (
@@ -59,14 +98,13 @@
 		044F212D28B333EC0065090D /* FilterCreator */ = {
 			isa = PBXGroup;
 			children = (
+				0410A8A028BC6A4100FD3383 /* Helpers */,
+				043E92E928B85769006DC663 /* ViewModels */,
+				043E92E728B8574D006DC663 /* Models */,
+				043E92E828B8575F006DC663 /* Views */,
 				044F212E28B333EC0065090D /* FilterCreatorApp.swift */,
-				044F213C28B334DC0065090D /* ImagePicker.swift */,
-				044F213028B333EC0065090D /* ContentView.swift */,
 				044F213228B333EE0065090D /* Assets.xcassets */,
 				044F213428B333EE0065090D /* Preview Content */,
-				044F214028B3374A0065090D /* FilterManager.swift */,
-				044F214428B341590065090D /* PropDefinition.swift */,
-				044F214828B342770065090D /* PropSlider.swift */,
 			);
 			path = FilterCreator;
 			sourceTree = "<group>";
@@ -151,10 +189,12 @@
 			files = (
 				044F214128B3374A0065090D /* FilterManager.swift in Sources */,
 				044F213D28B334DC0065090D /* ImagePicker.swift in Sources */,
+				043E92EB28B8579D006DC663 /* FilterConfig.swift in Sources */,
 				044F214528B341590065090D /* PropDefinition.swift in Sources */,
 				044F213128B333EC0065090D /* ContentView.swift in Sources */,
 				044F212F28B333EC0065090D /* FilterCreatorApp.swift in Sources */,
 				044F214928B342770065090D /* PropSlider.swift in Sources */,
+				043E92EF28B8675E006DC663 /* SaveFilterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

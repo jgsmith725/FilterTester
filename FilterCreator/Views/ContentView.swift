@@ -26,13 +26,13 @@ struct ContentView: View {
     private var picActions: [Alert.Button] {
         let buttons: [Alert.Button] = [
             .cancel(Text("cancel")),
-//            .default(Text("camera"), action: {
-//                sourceType = .camera
-//            }),
-            .default(Text("photo library"), action: {
-                sourceType = .library
-            })
-            ]
+            //            .default(Text("camera"), action: {
+            //                sourceType = .camera
+            //            }),
+                .default(Text("photo library"), action: {
+                    sourceType = .library
+                })
+        ]
         
         return buttons
     }
@@ -47,26 +47,46 @@ struct ContentView: View {
                         .rotationEffect(showOriginal ? Angle(degrees: 0) : Angle(degrees: -90))
                         .padding()
                         .onTapGesture {
-                            sourceType = .library
+                            showOriginal.toggle()
                         }
+                    HStack {
+                        Text(showOriginal ? "showing original image (tap to toggle)" : "filters applied (tap to toggle)")
+                            .font(.caption)
+                            .padding(.horizontal)
+                        Spacer()
+                        Button(action: {
+                            sourceType = .library
+                        }, label: {
+                            Text("new image")
+                        })
+                    }
+
+                    
                 } else {
                     Image(uiImage: showOriginal ? inputImage : image)
                         .resizable()
                         .scaledToFill()
                         .rotationEffect(showOriginal ? Angle(degrees: 0) : Angle(degrees: -90))
                         .padding()
-                        .onTapGesture {
+                        .onTapGesture(count: 2) {
                             showOriginal.toggle()
                         }
                 }
             } else {
-                Image(systemName: "photo")
+//                Image(systemName: "photo")
+//                    .padding()
+//                    .background(Rectangle().stroke().foregroundColor(Color.blue))
+//                    .onTapGesture {
+//                        showActionSheet = true
+//                        //sourceType = .library
+//                    }
+                Button(action: {
+                    showActionSheet = true
+                    //sourceType = .library
+                }, label: {
+                    Text("upload an image")
+                })
                     .padding()
-                    .background(Rectangle().stroke().foregroundColor(Color.blue))
-                    .onTapGesture {
-                        showActionSheet = true
-                        //sourceType = .library
-                    }
             }
             
             if !filterManager.isLandscape && displayedImage != nil {
@@ -95,28 +115,17 @@ struct ContentView: View {
                     })
                         .padding()
                     
-                    Button(action: {
-                        filterManager.resetToDefaults()
-                        applyFilter()
-                        
-                    }, label: {
-                        Text("reset to defaults")
-                    })
-                        .padding()
-                    
-                    Button(action: {
-                        filterManager.resetToCurrentVintageFilter()
-                        applyFilter()
-                    }, label: {
-                        Text("reset to current vintage")
-                    })
-                        .padding()
-                    
+                    if let activeFilter = filterManager.activeFilter, !filterManager.isReservedFilter(name: activeFilter.name) {
+                        Button(action: {
+                            filterManager.deleteFilter(name: activeFilter.name)
+                        }, label: {
+                            Text("delete current filter")
+                                .foregroundColor(Color.red)
+                        })
+                            .padding()
+                    }
+
                     Group {
-                        Toggle(isOn: $showOriginal) {
-                            Text("show original")
-                        }
-                        
                         Toggle(isOn: $filterManager.photoEffectFade) {
                             Text("diminished color vintage")
                         }
@@ -156,7 +165,7 @@ struct ContentView: View {
                         PropSlider(binding: filterBinding($filterManager.vibrance), def: FilterManager.vibranceDef)
                         PropSlider(binding: filterBinding($filterManager.sharpness), def: FilterManager.sharpnessDef)
                     }
-
+                    
                     Group {
                         PropSlider(binding: filterBinding($filterManager.rr), def: FilterManager.rrDef)
                         PropSlider(binding: filterBinding($filterManager.rg), def: FilterManager.rgDef)
@@ -173,6 +182,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showSaveFilter) {
             SaveFilterView()
+                .environmentObject(filterManager)
         }
         .fullScreenCover(item: $sourceType, onDismiss: {
             sourceType = nil
@@ -192,7 +202,7 @@ struct ContentView: View {
             applyFilter()
         }
         .onAppear {
-            filterManager.listenForDeviceOrientationChanges()
+            filterManager.setup()
         }
     }
     
