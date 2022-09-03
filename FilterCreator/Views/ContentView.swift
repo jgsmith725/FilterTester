@@ -50,7 +50,7 @@ struct ContentView: View {
                             showOriginal.toggle()
                         }
                     HStack {
-                        Text(showOriginal ? "showing original image (tap to toggle)" : "filters applied (tap to toggle)")
+                        Text(showOriginal ? "showing original image (tap image to toggle)" : "filters applied (tap image to toggle)")
                             .font(.caption)
                             .padding(.horizontal)
                         Spacer()
@@ -60,6 +60,7 @@ struct ContentView: View {
                             Text("new image")
                         })
                     }
+                    .padding(.horizontal)
 
                     
                 } else {
@@ -68,7 +69,7 @@ struct ContentView: View {
                         .scaledToFill()
                         .rotationEffect(showOriginal ? Angle(degrees: 0) : Angle(degrees: -90))
                         .padding()
-                        .onTapGesture(count: 2) {
+                        .onTapGesture {
                             showOriginal.toggle()
                         }
                 }
@@ -94,7 +95,9 @@ struct ContentView: View {
                     Menu(content: {
                         ForEach(filterManager.savedFilters){ filter in
                             Button(action: {
+                                print("button tapped for filter \(filter.name)")
                                 filterManager.loadFilter(filter: filter)
+                                applyFilter()
                             }, label: {
                                 Text(filter.name)
                             })
@@ -199,6 +202,7 @@ struct ContentView: View {
                         buttons: picActions)
         })
         .onChange(of: inputImage) { _ in
+            print("input image change")
             applyFilter()
         }
         .onAppear {

@@ -336,6 +336,7 @@ final class FilterManager: ObservableObject {
             } else {
                 savedFilters.append(currentFilter)
             }
+            activeFilter = currentFilter
         } catch let error {
             print(String(describing: error))
         }
@@ -361,6 +362,7 @@ final class FilterManager: ObservableObject {
             if let index = savedFilters.firstIndex(where: { $0.name == name }) {
                 savedFilters.remove(at: index)
             }
+            loadFilter(filter: FilterManager.defaultFilter)
         } catch let error {
             print(String(describing: error))
         }
@@ -374,7 +376,7 @@ final class FilterManager: ObservableObject {
         do {
             let jsonDecoder = JSONDecoder()
             let directoryContents = try manager.contentsOfDirectory(atPath: folderURL.path)
-            let datas = try directoryContents.map { try Data(contentsOf: URL(fileURLWithPath: $0)) }
+            let datas = try directoryContents.map { try Data(contentsOf: URL(fileURLWithPath: folderURL.appendingPathComponent($0).path)) }
             savedFilters = try datas.map { try jsonDecoder.decode(FilterConfig.self, from: $0) }
             savedFilters.append(FilterManager.currentVintageFilter)
             savedFilters.append(FilterManager.defaultFilter)

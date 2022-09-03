@@ -20,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0410A8A128C3B50700FD3383 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		043E92EA28B8579D006DC663 /* FilterConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfig.swift; sourceTree = "<group>"; };
 		043E92EE28B8675E006DC663 /* SaveFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveFilterView.swift; sourceTree = "<group>"; };
 		044F212B28B333EC0065090D /* FilterCreator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterCreator.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +99,7 @@
 		044F212D28B333EC0065090D /* FilterCreator */ = {
 			isa = PBXGroup;
 			children = (
+				0410A8A128C3B50700FD3383 /* Info.plist */,
 				0410A8A028BC6A4100FD3383 /* Helpers */,
 				043E92E928B85769006DC663 /* ViewModels */,
 				043E92E728B8574D006DC663 /* Models */,
@@ -328,6 +330,7 @@
 				DEVELOPMENT_TEAM = R48E5GJ873;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FilterCreator/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -338,7 +341,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Jack-Smith.FilterTester";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jack-Smith.FilterCreator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -357,6 +360,7 @@
 				DEVELOPMENT_TEAM = R48E5GJ873;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FilterCreator/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -367,7 +371,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Jack-Smith.FilterTester";
+				PRODUCT_BUNDLE_IDENTIFIER = "Jack-Smith.FilterCreator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
