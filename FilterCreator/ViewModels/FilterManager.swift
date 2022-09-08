@@ -18,7 +18,7 @@ final class FilterManager: ObservableObject {
     static let exposureDef = PropDefinition(name: "exposure", min: -10, max: 10, defaultValue: 0, vintageValue: 0.2)
     
     let colorFilter = CIFilter.colorControls()
-    static let contrastDef = PropDefinition(name: "contrast", min: 0.25, max: 4, defaultValue: 1, vintageValue: 0.93)
+    static let contrastDef = PropDefinition(name: "contrast", min: 0.25, max: 4, defaultValue: 1, vintageValue: 0.97)
     static let brightnessDef = PropDefinition(name: "brightness", min: -1, max: 1, defaultValue: 0, vintageValue: 0)
     static let saturationDef = PropDefinition(name: "saturation", min: 0, max: 2, defaultValue: 1, vintageValue: 1.05)
     
@@ -29,22 +29,22 @@ final class FilterManager: ObservableObject {
     let colorMonochromeFilter = CIFilter.colorMonochrome()
     let tempAndTintFilter = CIFilter.temperatureAndTint()
     static let tempDef = PropDefinition(name: "temp", min: -3000, max: 3000, defaultValue: 0, vintageValue: -30)
-    static let tintDef = PropDefinition(name: "tint", min: -100, max: 100, defaultValue: 0, vintageValue: 25)
+    static let tintDef = PropDefinition(name: "tint", min: -100, max: 100, defaultValue: 0, vintageValue: 0)
     
     let vibranceFilter = CIFilter.vibrance()
-    static let vibranceDef = PropDefinition(name: "vibrance", min: -1, max: 1, defaultValue: 0, vintageValue: 0.05)
+    static let vibranceDef = PropDefinition(name: "vibrance", min: -1, max: 1, defaultValue: 0, vintageValue: 0.1)
 //    static let photoEffectChrome = CIFilter.photoEffectChrome()
     let sharpenLuminescanceFilter = CIFilter.sharpenLuminance()
-    static let sharpnessDef = PropDefinition(name: "sharpness", min: 0, max: 2, defaultValue: 1, vintageValue: 0)
+    static let sharpnessDef = PropDefinition(name: "sharpness", min: 0, max: 2, defaultValue: 1, vintageValue: 1)
     
 //    static let hardLightBlend = CIFilter.hardLightBlendMode()
     let colorMatrix = CIFilter.colorMatrix()
     static let rrDef = PropDefinition(name: "rr", min: 0, max: 1, defaultValue: 1, vintageValue: 1)
-    static let rgDef = PropDefinition(name: "rg", min: 0, max: 1, defaultValue: 0, vintageValue: 0)
+    static let rgDef = PropDefinition(name: "rg", min: 0, max: 1, defaultValue: 0, vintageValue: 0.1)
     static let rbDef = PropDefinition(name: "rb", min: 0, max: 1, defaultValue: 0, vintageValue: 0)
-    static let grDef = PropDefinition(name: "gr", min: 0, max: 1, defaultValue: 0, vintageValue: 0.2)
+    static let grDef = PropDefinition(name: "gr", min: 0, max: 1, defaultValue: 0, vintageValue: 0.13)
     static let ggDef = PropDefinition(name: "gg", min: 0, max: 1, defaultValue: 1, vintageValue: 1)
-    static let gbDef = PropDefinition(name: "gb", min: 0, max: 1, defaultValue: 0, vintageValue: 0.2)
+    static let gbDef = PropDefinition(name: "gb", min: 0, max: 1, defaultValue: 0, vintageValue: 0.13)
     static let brDef = PropDefinition(name: "br", min: 0, max: 1, defaultValue: 0, vintageValue: 0)
     static let bgDef = PropDefinition(name: "bg", min: 0, max: 1, defaultValue: 0, vintageValue: 0)
     static let bbDef = PropDefinition(name: "bb", min: 0, max: 1, defaultValue: 1, vintageValue: 1)
@@ -54,7 +54,7 @@ final class FilterManager: ObservableObject {
     let photoEffectTransferFilter = CIFilter.photoEffectTransfer()
     let photoEffectProcessFilter = CIFilter.photoEffectProcess()
 
-    let photoEffectNoir = CIFilter.photoEffectNoir()
+    let photoEffectNoirFilter = CIFilter.photoEffectNoir()
     let randomGenerator = CIFilter.randomGenerator()
     let sourceOverCompositor = CIFilter.sourceOverCompositing()
     let multiplyCompositing = CIFilter.multiplyCompositing()
@@ -65,6 +65,7 @@ final class FilterManager: ObservableObject {
     @Published var photoEffectInstant: Bool = false
     @Published var photoEffectTransfer: Bool = false
     @Published var photoEffectProcess: Bool = false
+    @Published var photoEffectNoir: Bool = false
     
     @Published var exposure: Float = FilterManager.exposureDef.defaultValue //-10 to 10
     @Published var contrast: Float = FilterManager.contrastDef.defaultValue //.25 to 4, 1 is center
@@ -88,11 +89,14 @@ final class FilterManager: ObservableObject {
     @Published var savedFilters: [FilterConfig] = []
     @Published var activeFilter: FilterConfig? = nil
     
+    static let defaultFilters = [defaultFilter, currentVintageFilter, noirFilter]
+    
     static let defaultFilter = FilterConfig(name: "none",
                                             instant: false,
                                             fade: false,
                                             transfer: false,
                                             process: false,
+                                            noir: false,
                                             exposure: FilterManager.exposureDef.defaultValue,
                                             contrast: FilterManager.contrastDef.defaultValue,
                                             brightness: FilterManager.brightnessDef.defaultValue,
@@ -118,6 +122,7 @@ final class FilterManager: ObservableObject {
                                                  fade: true,
                                                  transfer: false,
                                                  process: false,
+                                                   noir: false,
                                                  exposure: FilterManager.exposureDef.vintageValue,
                                                  contrast: FilterManager.contrastDef.vintageValue,
                                                  brightness: FilterManager.brightnessDef.vintageValue,
@@ -138,11 +143,38 @@ final class FilterManager: ObservableObject {
                                                  bg: FilterManager.bgDef.vintageValue,
                                                  bb: FilterManager.bbDef.vintageValue)
     
+    static let noirFilter = FilterConfig(name: "noir",
+                                            instant: false,
+                                            fade: false,
+                                            transfer: false,
+                                            process: false,
+                                            noir: true,
+                                            exposure: FilterManager.exposureDef.defaultValue,
+                                            contrast: FilterManager.contrastDef.defaultValue,
+                                            brightness: FilterManager.brightnessDef.defaultValue,
+                                            saturation: FilterManager.saturationDef.defaultValue,
+                                            highlight: FilterManager.highlightDef.defaultValue,
+                                            shadow: FilterManager.shadowDef.defaultValue,
+                                            temp: FilterManager.tempDef.defaultValue,
+                                            tint: FilterManager.tintDef.defaultValue,
+                                            sharpness: FilterManager.sharpnessDef.defaultValue,
+                                            vibrance: FilterManager.vibranceDef.defaultValue,
+                                            rr: FilterManager.rrDef.defaultValue,
+                                            rg: FilterManager.rgDef.defaultValue,
+                                            rb: FilterManager.rbDef.defaultValue,
+                                            gr: FilterManager.grDef.defaultValue,
+                                            gg: FilterManager.ggDef.defaultValue,
+                                            gb: FilterManager.gbDef.defaultValue,
+                                            br: FilterManager.brDef.defaultValue,
+                                            bg: FilterManager.bgDef.defaultValue,
+                                            bb: FilterManager.bbDef.defaultValue)
+    
     func loadFilter(filter: FilterConfig) {
         photoEffectFade = filter.fade
         photoEffectInstant = filter.instant
         photoEffectTransfer = filter.transfer
         photoEffectProcess = filter.process
+        photoEffectNoir = filter.noir
         exposure = filter.exposure
         contrast =  filter.contrast
         brightness = filter.brightness
@@ -172,6 +204,7 @@ final class FilterManager: ObservableObject {
                                          fade: photoEffectFade,
                                          transfer: photoEffectTransfer,
                                          process: photoEffectProcess,
+                                         noir: photoEffectNoir,
                                          exposure: exposure,
                                          contrast: contrast,
                                          brightness: brightness,
@@ -216,6 +249,11 @@ final class FilterManager: ObservableObject {
         if photoEffectProcess {
             photoEffectProcessFilter.inputImage = beginImage
             beginImage = photoEffectProcessFilter.outputImage
+        }
+        
+        if photoEffectNoir {
+            photoEffectNoirFilter.inputImage = beginImage
+            beginImage = photoEffectNoirFilter.outputImage
         }
 
         exposureFilter.inputImage = beginImage
@@ -344,7 +382,7 @@ final class FilterManager: ObservableObject {
     }
     
     func isReservedFilter(name: String) -> Bool {
-        return name == FilterManager.defaultFilter.name || name == FilterManager.currentVintageFilter.name
+        return FilterManager.defaultFilters.map({ $0.name }).contains(name)
     }
     
     func deleteFilter(name: String) {
@@ -374,17 +412,27 @@ final class FilterManager: ObservableObject {
         let manager = FileManager.default
         guard let folderURL = getFolderURL() else { return }
         do {
-            let jsonDecoder = JSONDecoder()
+
             let directoryContents = try manager.contentsOfDirectory(atPath: folderURL.path)
             let datas = try directoryContents.map { try Data(contentsOf: URL(fileURLWithPath: folderURL.appendingPathComponent($0).path)) }
-            savedFilters = try datas.map { try jsonDecoder.decode(FilterConfig.self, from: $0) }
-            savedFilters.append(FilterManager.currentVintageFilter)
-            savedFilters.append(FilterManager.defaultFilter)
+            savedFilters = datas.compactMap { tryDecodeFilter(data: $0) }
+            savedFilters.append(contentsOf: FilterManager.defaultFilters)
             print("saved filters: \(String(describing: savedFilters))")
         } catch let error {
             print(String(describing: error))
-            savedFilters = [FilterManager.currentVintageFilter, FilterManager.defaultFilter]
+            savedFilters = FilterManager.defaultFilters
         }
+    }
+    
+    private func tryDecodeFilter(data: Data) -> FilterConfig? {
+        let jsonDecoder = JSONDecoder()
+        do {
+            let config = try jsonDecoder.decode(FilterConfig.self, from: data)
+            return config
+        } catch {
+            print(String(describing: error))
+        }
+        return nil
     }
 
     private func getFolderURL() -> URL? {

@@ -153,6 +153,12 @@ struct ContentView: View {
                         .onChange(of: filterManager.photoEffectProcess) { _ in
                             applyFilter()
                         }
+                        Toggle(isOn: $filterManager.photoEffectNoir) {
+                            Text("noir")
+                        }
+                        .onChange(of: filterManager.photoEffectNoir) { _ in
+                            applyFilter()
+                        }
                     }
                     .padding(.horizontal)
                     
